@@ -26,18 +26,21 @@ async def dog(update, context):
 
     args = context.args
     if args:
-        dog_breed = args[0]
+        dog_breed = "/".join(args[::-1])
         request_url = f"https://dog.ceo/api/breed/{dog_breed}/images/random"
 
     data = requests.get(url=request_url).json()
-    if data["status"] == "error":
+
+    try:
+        dog_photo = data["message"]
+        await context.bot.send_photo(
+            chat_id=update.effective_chat.id,
+            photo=dog_photo)
+    except KeyError:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="Breed not found",
         )
-    else:
-        dog_photo = data["message"]
-        await context.bot.send_photo(chat_id=update.effective_chat.id, photo=dog_photo)
 
 
 async def dad_joke(update, context):
