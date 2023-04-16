@@ -1,6 +1,7 @@
 import os
 import logging
 import requests
+import openai
 from dotenv import load_dotenv
 from telegram.ext import ApplicationBuilder, CommandHandler
 
@@ -9,6 +10,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_API_KEY")
 DAD_JOKE_TOKEN = os.getenv("DAD_JOKE_KEY")
 WEATHER_TOKEN = os.getenv("WEATHER_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -86,6 +88,51 @@ async def weather_now(update, context):
         )
 
 
+async def gpt_chat(update, context):
+    msg = " ".join(context.args)
+    if msg:
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": msg}
+            ]
+        )
+        respone = completion.choices[0].message["content"]
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=respone,
+        )
+
+    else:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Please provide message like so: /gpt Hello!",
+        )
+
+
+async def gpt_img(update, context):
+    msg = " ".join(context.args)
+    if msg:
+        image = openai.Image.create(
+            prompt=msg,
+            n=1,
+            size="512x512"
+        )
+        image_url = image['data'][0]['url']
+
+        await context.bot.send_photo(
+            chat_id=update.effective_chat.id,
+            photo=image_url
+        )
+
+    else:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Please provide image description like so: /img flying bear",
+        )
+
+
 if __name__ == "__main__":
     application = ApplicationBuilder().token(BOT_TOKEN).build()
 
@@ -93,10 +140,14 @@ if __name__ == "__main__":
     dog_handler = CommandHandler("dog", dog)
     dad_joke_handler = CommandHandler("dad_joke", dad_joke)
     weather_now_handler = CommandHandler("weather", weather_now)
+    gpt_chat_handler = CommandHandler("gpt", gpt_chat)
+    gpt_img_handler = CommandHandler("img", gpt_img)
 
     application.add_handler(start_handler)
     application.add_handler(dog_handler)
     application.add_handler(dad_joke_handler)
     application.add_handler(weather_now_handler)
+    application.add_handler(gpt_chat_handler)
+    application.add_handler(gpt_img_handler)
 
     application.run_polling(stop_signals=None)
