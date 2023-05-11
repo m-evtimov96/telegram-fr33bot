@@ -33,15 +33,15 @@ async def dog(update, context):
 
     data = requests.get(url=request_url).json()
 
-    try:
+    if data["status"] != "error":
         dog_photo = data["message"]
         await context.bot.send_photo(
             chat_id=update.effective_chat.id,
             photo=dog_photo)
-    except KeyError:
+    else:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Breed not found",
+            text=data["message"],
         )
 
 
@@ -119,7 +119,7 @@ async def gpt_img(update, context):
             n=1,
             size="512x512"
         )
-        image_url = image['data'][0]['url']
+        image_url = image["data"][0]["url"]
 
         await context.bot.send_photo(
             chat_id=update.effective_chat.id,
