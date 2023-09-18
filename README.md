@@ -1,11 +1,11 @@
 # telegram-fr33bot
-Simple telegram bot
+Telegram bot that can send you dog pics, tell you the weather, crack dad jokes and use OpenAI models.
 
 #### 1. Installation
 - Clone the repository
 - Create and activate virtual environment by your prefer method (venv, conda, poetry etc.)
 - In the project folder run `pip install -r requirements.txt` to install the required packages
-- Create a new telegram bot following this https://core.telegram.org/bots/features#creating-a-new-bot or anny other tutorial 
+- Create a new telegram bot following this https://core.telegram.org/bots/features#creating-a-new-bot or any other tutorial 
 - Generate the required KEYS for the API's that the project uses:  <br />
 -- https://dadjokes.io/documentation/getting-started  <br />
 -- https://openweathermap.org/guide <br />
