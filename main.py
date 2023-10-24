@@ -8,7 +8,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_API_KEY")
-DAD_JOKE_TOKEN = os.getenv("DAD_JOKE_KEY")
+RAPID_TOKEN = os.getenv("RAPID_API_KEY")
 WEATHER_TOKEN = os.getenv("WEATHER_API_KEY")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -48,7 +48,7 @@ async def dog(update, context):
 async def dad_joke(update, context):
     request_url = "https://dad-jokes.p.rapidapi.com/random/joke"
     headers = {
-        "X-RapidAPI-Key": DAD_JOKE_TOKEN,
+        "X-RapidAPI-Key": RAPID_TOKEN,
         "X-RapidAPI-Host": "dad-jokes.p.rapidapi.com",
     }
 
