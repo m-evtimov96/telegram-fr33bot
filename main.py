@@ -143,7 +143,14 @@ if __name__ == "__main__":
     gpt_chat_handler = CommandHandler("gpt", gpt_chat)
     gpt_img_handler = CommandHandler("img", gpt_img)
 
-    handlers = [start_handler, dog_handler, dad_joke_handler, weather_now_handler, gpt_chat_handler, gpt_img_handler]
+    handlers = [
+        start_handler,
+        dog_handler,
+        dad_joke_handler,
+        weather_now_handler,
+        gpt_chat_handler,
+        gpt_img_handler,
+    ]
     application.add_handlers(handlers)
 
     application.run_polling(stop_signals=None)
