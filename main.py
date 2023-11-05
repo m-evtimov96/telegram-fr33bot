@@ -4,6 +4,7 @@ import requests
 import openai
 from dotenv import load_dotenv
 from telegram.ext import ApplicationBuilder, CommandHandler
+from telegram.constants import ParseMode
 
 
 load_dotenv()
@@ -58,6 +59,25 @@ async def dad_joke(update, context):
 
     await context.bot.send_message(chat_id=update.effective_chat.id, text=joke_start)
     await context.bot.send_message(chat_id=update.effective_chat.id, text=joke_end)
+
+
+async def free_epic_games(update, context):
+    request_url = "https://free-epic-games.p.rapidapi.com/free"
+    headers = {
+        "X-RapidAPI-Key": RAPID_TOKEN,
+        "X-RapidAPI-Host": "epic-games-store-free-games.p.rapidapi.com",
+    }
+    data = requests.get(url=request_url, headers=headers).json()
+    games = data["currentGames"]
+    for game in games:
+        title = game["title"]
+        expires = game["promotions"]["promotionalOffers"][0]["promotionalOffers"][0]["endDate"].split(".")[0]
+        url = (
+            "https://store.epicgames.com/en-US/p/"
+            + game["catalogNs"]["mappings"][0]["pageSlug"]
+        )
+        msg = f"<b>{title}</b> \nExpires: {expires}Z \n{url}"
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=msg, parse_mode=ParseMode.HTML)
 
 
 async def weather_now(update, context):
@@ -139,6 +159,7 @@ if __name__ == "__main__":
     start_handler = CommandHandler("start", start)
     dog_handler = CommandHandler("dog", dog)
     dad_joke_handler = CommandHandler("dad_joke", dad_joke)
+    free_epic_games_handler = CommandHandler("epic_games", free_epic_games)
     weather_now_handler = CommandHandler("weather", weather_now)
     gpt_chat_handler = CommandHandler("gpt", gpt_chat)
     gpt_img_handler = CommandHandler("img", gpt_img)
@@ -148,6 +169,7 @@ if __name__ == "__main__":
         dog_handler,
         dad_joke_handler,
         weather_now_handler,
+        free_epic_games_handler,
         gpt_chat_handler,
         gpt_img_handler,
     ]
