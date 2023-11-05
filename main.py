@@ -62,7 +62,7 @@ async def dad_joke(update, context):
 
 
 async def free_epic_games(update, context):
-    request_url = "https://free-epic-games.p.rapidapi.com/free"
+    request_url = "https://epic-games-store-free-games.p.rapidapi.com/free"
     headers = {
         "X-RapidAPI-Key": RAPID_TOKEN,
         "X-RapidAPI-Host": "epic-games-store-free-games.p.rapidapi.com",
