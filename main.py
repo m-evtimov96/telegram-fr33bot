@@ -71,11 +71,13 @@ async def free_epic_games(update, context):
     games = data["currentGames"]
     for game in games:
         title = game["title"]
-        expires = game["promotions"]["promotionalOffers"][0]["promotionalOffers"][0]["endDate"].split(".")[0]
-        url = (
-            "https://store.epicgames.com/en-US/p/"
-            + game["catalogNs"]["mappings"][0]["pageSlug"]
-        )
+        expires = game["expiryDate"]
+        # expires = game["promotions"]["promotionalOffers"][0]["promotionalOffers"][0]["endDate"].split(".")[0]
+        url = "https://store.epicgames.com/en-US/p/" + game["productSlug"]
+        # url = (
+        #     "https://store.epicgames.com/en-US/p/"
+        #     + game["catalogNs"]["mappings"][0]["pageSlug"]
+        # )
         msg = f"<b>{title}</b> \nExpires: {expires}Z \n{url}"
         await context.bot.send_message(chat_id=update.effective_chat.id, text=msg, parse_mode=ParseMode.HTML)
 
