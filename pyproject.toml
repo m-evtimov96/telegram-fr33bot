@@ -1,0 +1,12 @@
+[project]
+name = "telegram-fr33bot"
+version = "0.1.0"
+description = "A multi-functional Telegram bot that can send dog images, tell dad jokes, report weather, and interact with OpenAI's ChatGPT and DALL·E."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openai>=1.95.0",
+    "python-dotenv>=1.1.1",
+    "python-telegram-bot>=22.2",
+    "requests>=2.32.4",
+]
