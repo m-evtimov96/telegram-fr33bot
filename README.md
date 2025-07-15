@@ -67,10 +67,43 @@ After that use the provided **sample.env** renaming it to **.env** and populatin
 
 ### Step 5: Run the Bot
 
-You can run the bot in a terminal, using [Screen](https://linuxize.com/post/how-to-use-linux-screen/), systemd service or any other way you want.
+You can run the bot in a terminal using [Screen](https://linuxize.com/post/how-to-use-linux-screen/), a `systemd` service, or any other method you prefer.
+
+---
+
+#### ✅ Option 1: Run manually in the terminal or in a screen
+
+Run the bot using `uv`:
 
 ```bash
 uv run python3 main.py
+```
+
+---
+
+#### ✅ Option 2: Run using systemd (auto-start on boot)
+
+##### 1. **Create a systemd service file**
+
+Using the provided `telegram-fr33bot.service` file, populate it with your correct paths and copy it to systemd dir.
+
+```bash
+sudo cp telegram-fr33bot.service /etc/systemd/system/
+```
+
+##### 2. **Reload systemd and enable/start the service**
+
+```bash
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable telegram-fr33bot.service
+sudo systemctl start telegram-fr33bot.service
+```
+
+##### 3. **Check the service status**
+
+```bash
+sudo systemctl status telegram-fr33bot.service
 ```
 
 ---

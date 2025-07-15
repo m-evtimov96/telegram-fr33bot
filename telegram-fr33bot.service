@@ -1,0 +1,14 @@
+[Unit]
+Description=Telegram fr33bot Service
+After=network.target
+
+[Service]
+Type=simple
+User=your-user
+WorkingDirectory=/home/username-here/path-to-proj/telegram-fr33bot
+ExecStart=/home/username-here/path-to-proj/telegram-fr33bot/.venv/bin/python main.py
+Restart=on-failure
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
